@@ -89,25 +89,28 @@ export default function Todo({ todo }) {
   };
 
   useEffect(() => {
-    if (textUpdateSuccess && !deleteTodoSuccess) {
+    if (textUpdateSuccess) {
       setIsEditing(false);
 
       toast.success("Todo Updated Successfully");
     }
-    if(statusUpdateSuccess && statusUpdatedTodo.completed){
-        toast.success("Task Completed Successfully");
-    }
-    if(statusUpdateSuccess && !statusUpdatedTodo.completed){
-        toast.error("Task Marked as Incomplete!");
-    }
+  }, [textUpdateSuccess]);
 
-    if(deleteTodoSuccess){
-        toast.error("Todo Deleted!");
+  useEffect(() => {
+    if (statusUpdateSuccess && statusUpdatedTodo.completed) {
+      toast.success("Task Completed Successfully");
     }
+    if (statusUpdateSuccess && !statusUpdatedTodo.completed) {
+      toast.error("Task Marked as Incomplete!");
+    }
+  }, [statusUpdateSuccess]);
 
-  }, [textUpdateSuccess, statusUpdateSuccess, deleteTodoSuccess]);
+  useEffect(() => {
+    if (deleteTodoSuccess) {
+      toast.error("Todo Deleted!");
+    }
+  }, [deleteTodoSuccess]);
 
- 
   const handleEditing = (id) => {
     //when edit mode is opened then if the user toggle edit button again then it will close the edit mode and also the text will be updated in display mode
     if (isEditing) {
